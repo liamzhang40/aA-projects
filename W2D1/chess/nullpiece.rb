@@ -1,8 +1,14 @@
-class NullPiece
-  attr_accessor :pos
+require_relative 'piece'
+require 'Singleton'
 
-  def initialize(pos)
-    @pos = pos
+class NullPiece < Piece
+  attr_reader :symbol, :color
+
+  include Singleton
+
+  def initialize
+    @symbol = nil
+    @color = nil
   end
 
   def to_s

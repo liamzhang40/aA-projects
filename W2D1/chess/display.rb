@@ -1,6 +1,7 @@
 require "colorize"
 require_relative "cursor"
 require_relative "board"
+require 'byebug'
 
 class Display
   attr_reader :cursor, :board
@@ -12,12 +13,18 @@ class Display
 
   def render
     puts " -------------------------------"
-    board.grid.each do |row|
-      row_to_display = row.map do |piece|
-        unless piece.pos == cursor.cursor_pos
-          piece.to_s
+    board.grid.each_with_index do |row, i|
+      row_to_display = row.map.with_index do |piece, j|
+        # if cursor position is on a NullPiece, it displays colorized background of an empty string " "
+        if [i, j] == cursor.cursor_pos && board[[i, j]].is_a?(NullPiece)
+          cursor.selected ? piece.to_s.colorize(:background => :green) : piece.to_s.colorize(:background => :light_green)
+        # if cursor position is on a Piece, display piece symbol and colorized background of that symbol
+        elsif piece.pos == cursor.cursor_pos
+          cursor.selected ? piece.to_s.colorize(:background => :green) : piece.to_s.colorize(:background => :light_green)
+        elsif [i, j].all?(&:odd?) || [i, j].all?(&:even?)
+          piece.to_s.colorize(:background => :white)
         else
-          piece.to_s.colorize(:background => :green)
+          piece.to_s.colorize(:background => :yellow)
         end
       end
 
@@ -28,13 +35,13 @@ class Display
   end
 end
 
-
-b = Board.new
-
-display = Display.new(b)
-
-while true
-  system('clear')
-  display.render
-  display.cursor.get_input
-end
+# 
+# b = Board.new
+#
+# display = Display.new(b)
+#
+# while true
+#   system('clear')
+#   display.render
+#   display.cursor.get_input
+# end

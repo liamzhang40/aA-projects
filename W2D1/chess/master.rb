@@ -1,0 +1,6 @@
+require_relative "nullpiece"
+require_relative "pawn"
+require_relative "rook"
+require_relative "bishop"
+require_relative "king"
+require_relative "queen"
