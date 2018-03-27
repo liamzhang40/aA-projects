@@ -95,6 +95,7 @@ class Board
         return true if self[[i, j]].bomb && self[[i, j]].revealed
       end
     end
+    false
   end
 
   private
