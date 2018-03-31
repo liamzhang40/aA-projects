@@ -15,8 +15,8 @@ class Node
   end
 
   def remove
-    # optional but useful, connects previous link to next link
-    # and removes self from list.
+    @next.prev = @prev
+    @prev.next = @next
   end
 end
 
@@ -28,24 +28,25 @@ class LinkedList
   def initialize
     @head = Node.new
     @tail = Node.new
+    @head.next = tail
+    @tail.prev = head
   end
 
   def [](i)
     each_with_index { |link, j| return link if i == j }
     nil
-  end
+  end # for passing the spec only ?
 
   def first
-    @head.next
+    head.next
   end
 
   def last
-    @tail.prev
+    tail.prev
   end
 
   def empty?
-    return true unless first
-    false
+    first == tail
   end
 
   def get(key)
@@ -63,48 +64,34 @@ class LinkedList
 
   def append(key, val)
     new_node = Node.new(key, val)
-    if empty?
-      head.next = new_node
-      new_node.next = tail
-      tail.prev = new_node
-      new_node.prev = head
-    else
-      last.next = new_node
-      new_node.prev = last
-      new_node.next = tail
-      tail.prev = new_node
-    end
+    new_node.next = tail
+    new_node.prev = last
+    last.next = new_node
+    tail.prev = new_node
   end
 
   def update(key, val)
     each do |node|
       node.val = val if node.key == key
     end
-
   end
 
   def remove(key)
     each do |node|
-      if node.key == key
-        node.prev.next = node.next
-        node.next.prev = node.prev
-      end
+      node.remove if node.key == key
     end
   end
 
   def each(&prc)
-    unless empty?
-      node = head.next
-      until node == tail
-        # debugger
-        prc.call(node)
-        node = node.next
-      end
+    each_node = first
+    until each_node == tail
+      prc.call(each_node)
+      each_node = each_node.next
     end
   end
 
   # uncomment when you have `each` working and `Enumerable` included
-  def to_s
-    inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
-  end
+  # def to_s
+  #   inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
+  # end
 end
