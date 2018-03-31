@@ -25,17 +25,30 @@ class StaticArray
 end
 
 class DynamicArray
-  attr_reader :count
+  attr_reader :count, :store
+
+  include Enumerable
 
   def initialize(capacity = 8)
     @store = StaticArray.new(capacity)
     @count = 0
+    @push_idx = 0
+    @unshift_idx = capacity - 1
   end
 
   def [](i)
+    if i > count
+      return nil
+    elsif i < 0
+      return nil if -i < count
+      store[count + i]
+    else
+      store[]
+    end
   end
 
   def []=(i, val)
+    store[i] = val
   end
 
   def capacity
@@ -43,9 +56,15 @@ class DynamicArray
   end
 
   def include?(val)
+    each do |el|
+      return true if el == val
+    end
   end
 
   def push(val)
+    resize! if capacity = count
+
+    @count += 1
   end
 
   def unshift(val)
@@ -58,12 +77,19 @@ class DynamicArray
   end
 
   def first
+    store[0]
   end
 
   def last
+    store[capacity - 1]
   end
 
-  def each
+  def each(&prc)
+    i = 0
+    while i < capacity - 1
+      prc.call(self[i])
+      i += 1
+    end
   end
 
   def to_s
@@ -81,5 +107,6 @@ class DynamicArray
   private
 
   def resize!
+
   end
 end
