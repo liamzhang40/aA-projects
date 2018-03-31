@@ -15,12 +15,13 @@ class LRUCache
   end
 
   def get(key)
-    unless map.include?(key)
-      calc!
-    else
-    eject
+    if map[key] # if key is already cached
+      node_to_update = map[key]
+      update_node!(node_to_update)
+    else # if key has not been cached yet
+      calc!(key)
     end
-
+    map[key].val
   end
 
   def to_s
@@ -30,15 +31,22 @@ class LRUCache
   private
 
   def calc!(key)
+    eject! if count == max
+    value = prc.call(key)
+    store.append(key, value)
+    map[key] = store.last
     # suggested helper method; insert an (un-cached) key
-    prc.call(key)
   end
 
-  def update_node!(node)
-    # suggested helper method; move a node to the end of the list
+  def update_node!(node_to_update)
+    node_to_update.remove
+    store.append(node_to_update.key, node_to_update.val)
+    map[node_to_update.key] = store.last
   end
 
   def eject!
-    store.remove(map[key])
+    oldest_node = store.first
+    oldest_node.remove
+    map.delete(oldest_node.key)
   end
 end

@@ -2,6 +2,8 @@ require_relative 'p02_hashing'
 require_relative 'p04_linked_list'
 require "byebug"
 
+# Overall constant operation assuming each linkedlist bucket
+# only contains one node
 class HashMap
   attr_reader :store
   attr_accessor :count
@@ -13,28 +15,26 @@ class HashMap
   end
 
   def include?(key)
-    get_bucket(key).include?(key)
+    linkedlist_bucket(key).include?(key)
   end
 
   def set(key, val)
-    resize! if count == store.length
-    unless include?(key)
-    # debugger
-      get_bucket(key).append(key, val)
-      @count += 1
+    resize! if count == num_buckets
+    if include?(key)
+      linkedlist_bucket(key).update(key, val)
     else
-      get_bucket(key).update(key, val)
+      linkedlist_bucket(key).append(key, val)
+      @count += 1
     end
   end
 
   def get(key)
-    list = get_bucket(key)
-    list.get(key)
+    linkedlist_bucket(key).get(key)
   end
 
   def delete(key)
     if include?(key)
-      get_bucket(key).remove(key)
+      linkedlist_bucket(key).remove(key)
       @count -= 1
     end
   end
@@ -47,8 +47,8 @@ class HashMap
     end
   end
 
-  def get_bucket(key)
-    store[key.hash % store.length]
+  def linkedlist_bucket(key)
+    store[key.hash % num_buckets]
   end
   # uncomment when you have Enumerable included
   def to_s
@@ -80,7 +80,4 @@ class HashMap
     @store = new_store
   end
 
-  def bucket(key)
-    # optional but useful; return the bucket corresponding to `key`
-  end
 end
