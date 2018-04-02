@@ -15,15 +15,15 @@ class Piece
   end
 
   def empty?
-    # if it is a Nullpiece on the position
+    @color.nil?# if it is a Nullpiece on the position
   end
 
   def valid_moves
-    # return all valid moves for each piece
+    moves# return all valid moves for each piece
   end
 
   def pos=(val)
-    # assign new position to a piece
+    @pos = val# assign new position to a piece
   end
 
   def symbol

@@ -42,10 +42,10 @@ attr_reader :grid
     # rescue StandardError => e
     #   puts e.message
     # end
-    raise "piece cannot move to end position" unless self[end_pos].is_a? NullPiece
+    raise "piece cannot move to end position" unless self[start_pos].moves.include?(end_pos)
     self[end_pos] = self[start_pos]
     self[end_pos].pos = end_pos
-    self[start_pos] = nil
+    self[start_pos] = NullPiece.instance
 
   end
 

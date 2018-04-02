@@ -1,7 +1,7 @@
-require "colorize"
 require_relative "cursor"
 require_relative "board"
 require 'byebug'
+require "colorize"
 
 class Display
   attr_reader :cursor, :board
@@ -35,13 +35,21 @@ class Display
   end
 end
 
-# 
-# b = Board.new
 #
-# display = Display.new(b)
-#
-# while true
-#   system('clear')
-#   display.render
-#   display.cursor.get_input
-# end
+b = Board.new
+
+display = Display.new(b)
+# p b[[1, 6]].moves
+
+while true
+  system('clear')
+  display.render
+  display.cursor.get_input
+  if display.cursor.selected
+    p display.cursor.cursor_pos
+  end
+  if display.cursor.selected
+    p selected_end_pos = display.cursor.cursor_pos
+    # b.move_piece(:white, selected_start_pos, selected_end_pos)
+  end
+end
