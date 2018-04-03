@@ -19,7 +19,7 @@ def num_stops
   execute(<<-SQL)
   SELECT
     count(id)
-  FROM 
+  FROM
     stops
   SQL
 end
@@ -29,11 +29,11 @@ def craiglockhart_id
   execute(<<-SQL)
   SELECT
     id
-  FROM 
+  FROM
     stops
-  WHERE 
+  WHERE
     name = 'Craiglockhart'
-  
+
   SQL
 end
 
@@ -41,15 +41,15 @@ def lrt_stops
   # Give the id and the name for the stops on the '4' 'LRT' service.
   execute(<<-SQL)
   SELECT
-    id, name 
-  FROM 
+    id, name
+  FROM
     stops
-  JOIN 
-    routes 
+  JOIN
+    routes
   ON stops.id = routes.stop_id
-  WHERE 
+  WHERE
     routes.num = '4' AND routes.company = 'LRT'
-  
+
   SQL
 end
 
@@ -83,7 +83,7 @@ def connecting_routes
     GROUP BY
       company, num
     Having
-      COUNT(*) = 2 
+      COUNT(*) = 2
   SQL
 end
 
@@ -106,17 +106,17 @@ def cl_to_lr
   # Craiglockhart, without changing routes. Change the query so that it
   # shows the services from Craiglockhart to London Road.
   execute(<<-SQL)
-    SELECT
-      a.company,
-      a.num,
-      a.stop_id,
-      b.stop_id
-    FROM
-      routes a
-    JOIN
-      routes b ON (a.company = b.company AND a.num = b.num)
-    WHERE
-      a.stop_id = 53 AND b.stop_id = 149;
+  SELECT
+    a.company,
+    a.num,
+    a.stop_id,
+    b.stop_id
+  FROM
+    routes a
+  JOIN
+    routes b ON (a.company = b.company AND a.num = b.num)
+  WHERE
+    a.stop_id = 53 AND b.stop_id = 149;
   SQL
 end
 
@@ -159,7 +159,7 @@ def cl_to_lr_by_name
     stops stopb ON (b.stop_id = stopb.id)
   WHERE
     stopa.name = 'Craiglockhart' AND stopb.name = 'London Road';
-    
+
   SQL
 end
 
@@ -168,17 +168,14 @@ def haymarket_and_leith
   # 115 and 137 ('Haymarket' and 'Leith')
   execute(<<-SQL)
     SELECT
-      a.company,
-      a.num,
-      a.stop_id,
-      b.stop_id
+      DISTINCT a.company,
+      a.num
     FROM
       routes a
     JOIN
       routes b ON (a.company = b.company AND a.num = b.num)
     WHERE
       a.stop_id = 115 AND b.stop_id = 137;
-    
   SQL
 end
 
@@ -186,6 +183,19 @@ def craiglockhart_and_tollcross
   # Give the company and num of the services that connect stops
   # 'Craiglockhart' and 'Tollcross'
   execute(<<-SQL)
+    SELECT
+      a.company, a.num
+    FROM
+      routes a
+    JOIN
+      routes b ON (a.company = b.company AND a.num = b.num)
+    JOIN
+      stops stopa ON (a.stop_id = stopa.id)
+    JOIN
+      stops stopb ON (b.stop_id = stopb.id)
+    WHERE
+      stopa.name = 'Craiglockhart' AND stopb.name = 'Tollcross';
+
   SQL
 end
 
@@ -194,6 +204,18 @@ def start_at_craiglockhart
   # by taking one bus, including 'Craiglockhart' itself. Include the stop name,
   # as well as the company and bus no. of the relevant service.
   execute(<<-SQL)
+    SELECT
+      stopb.name, a.company, a.num
+    FROM
+      routes a
+    JOIN
+      routes b ON (a.company = b.company AND a.num = b.num)
+    JOIN
+      stops stopa ON (a.stop_id = stopa.id)
+    JOIN
+      stops stopb ON (b.stop_id = stopb.id)
+    WHERE
+      stopa.name = 'Craiglockhart'
   SQL
 end
 
@@ -202,5 +224,25 @@ def craiglockhart_to_sighthill
   # Sighthill. Show the bus no. and company for the first bus, the name of the
   # stop for the transfer, and the bus no. and company for the second bus.
   execute(<<-SQL)
+  SELECT
+    start.num, start.company, start.stop_id, transfer_stop.name, after_transfer.stop_id
+  FROM
+    routes start
+  JOIN
+    routes transfer ON (start.company = transfer.company AND start.num = transfer.num)
+  JOIN
+    stops transfer_stop ON (transfer.stop_id = transfer_stop.id)
+  JOIN
+    routes after_transfer ON (transfer_stop.id = after_transfer.stop_id)
+  WHERE
+    start.stop_id = 53 AND after_transfer.stop_id = 213
+    -- JOIN
+    --   routes final ON (after_transfer.company = final.company AND after_transfer.num = final.num)
+    -- WHERE
+    --   after_transfer.stop_id = 213 AND start.stop_id = 53
   SQL
+
+
+  # joining routes on comany and num gives "this train can ogo from here to here"
+  #joining routes on stop_id gives "this stop has all these trains stopping at it"
 end
