@@ -224,18 +224,75 @@ def craiglockhart_to_sighthill
   # Sighthill. Show the bus no. and company for the first bus, the name of the
   # stop for the transfer, and the bus no. and company for the second bus.
   execute(<<-SQL)
-  SELECT
-    start.num, start.company, start.stop_id, transfer_stop.name, after_transfer.stop_id
-  FROM
-    routes start
-  JOIN
-    routes transfer ON (start.company = transfer.company AND start.num = transfer.num)
-  JOIN
-    stops transfer_stop ON (transfer.stop_id = transfer_stop.id)
-  JOIN
-    routes after_transfer ON (transfer_stop.id = after_transfer.stop_id)
-  WHERE
-    start.stop_id = 53 AND after_transfer.stop_id = 213
+  SELECT DISTINCT
+        start.num,
+        start.company,
+        transfer.name,
+        finish.num,
+        finish.company
+      FROM
+        routes start
+      JOIN
+        routes AS to_transfer ON start.company = to_transfer.company
+          AND start.num = to_transfer.num
+      JOIN
+        stops AS transfer ON to_transfer.stop_id = transfer.id
+      JOIN
+        routes AS from_transfer ON transfer.id = from_transfer.stop_id
+      JOIN
+        routes AS finish ON from_transfer.company = finish.company
+          AND from_transfer.num = finish.num
+      WHERE
+        start.stop_id = (
+          SELECT
+            id
+          FROM
+            stops
+          WHERE
+            name = 'Craiglockhart'
+        ) AND finish.stop_id = (
+          SELECT
+            id
+          FROM
+            stops
+          WHERE
+            name = 'Sighthill'
+        )
+  -- SELECT
+  --   start.num,
+  --   start.company,
+  --   transfer.name,
+  --   finish.num,
+  --   finish.company
+  -- FROM
+  --   routes start
+  -- JOIN
+  --   routes AS to_transfer ON start.company = to_transfer.company
+  --     AND start.num = to_transfer.num
+  -- JOIN
+  --   stops AS transfer ON to_transfer.stop_id = transfer.id
+  -- JOIN
+  --   routes AS from_transfer ON transfer.id = from_transfer.stop_id
+  -- JOIN
+  --   routes AS finish ON from_transfer.company = finish.company
+  --     AND from_transfer.num = finish.num
+  -- WHERE
+  --   start.stop_id = (
+  --     SELECT
+  --       id
+  --     FROM
+  --       stops
+  --     WHERE
+  --      name = 'Craiglockhart'
+  --    ) AND finish.stop_id = (
+  --      SELECT
+  --        id
+  --      FROM
+  --        stops
+  --      WHERE
+  --        name = 'Sighthill'
+  --    );
+
     -- JOIN
     --   routes final ON (after_transfer.company = final.company AND after_transfer.num = final.num)
     -- WHERE
