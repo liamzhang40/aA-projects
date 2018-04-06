@@ -14,7 +14,7 @@ require 'byebug'
 class Response < ApplicationRecord
 
   validate :respondent_already_answered?
-  validate :author_answer_own_pull?
+  validate :author_answer_own_poll?
 
   belongs_to :answer_choice,
     class_name: 'AnswerChoice',

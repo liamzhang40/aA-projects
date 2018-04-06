@@ -8,7 +8,6 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-
 class Question < ApplicationRecord
 
   validates :text, presence: true
@@ -52,19 +51,32 @@ class Question < ApplicationRecord
 
 
   def results
+    # searches = Question.find_by_sql(<<-SQL, @id)
+    #   SELECT
+    #     answer_choices.*, COUNT(responses.id)
+    #   FROM
+    #     answer_choices
+    #   JOIN
+    #     responses ON answer_choices.id = responses.answer_choice_id
+    #   WHERE
+    #     (responses.answer_choice_id IS NOT NULL) AND (answer_choices.question_id = ?)
+    #   GROUP BY
+    #     answer_choices.id;
+    # SQL
 
-    searches = Question.find_by_sql(<<-SQL, @id)
-      SELECT
-        answer_choices.*, COUNT(responses.id)
-      FROM
-        answer_choices
-      JOIN
-        responses ON answer_choices.id = responses.answer_choice_id
-      WHERE
-        (responses.answer_choice_id IS NOT NULL) AND (answer_choices.question_id = ?)
-      GROUP BY
-        answer_choices.id;
-    SQL
 
+  searches = Question.find_by_sql(<<-SQL)
+    SELECT
+      answer_choices.*, COUNT(responses.id)
+    FROM
+      answer_choices
+    JOIN
+      responses ON answer_choices.id = responses.answer_choice_id
+    WHERE
+      (responses.answer_choice_id IS NOT NULL) AND (answer_choices.question_id = 31)
+    GROUP BY
+      answer_choices.id;
+  SQL
   end
+
 end
