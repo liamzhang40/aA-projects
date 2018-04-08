@@ -34,25 +34,25 @@ class Display
 end
 
 
-b = Board.new
-display = Display.new(b)
-
-until b.over?
-  pos = nil
-  action = nil
-  until pos && action
-    display.render
-    if pos
-      puts "press 'r' to reveal, press 'f' to flag"
-      action = display.cursor.get_input
-    else
-      puts "Which tile"
-      pos = display.cursor.get_input
-    end
-  end
-
-  b[pos].send(action)
-
-  b.update_board(pos, action)
-end
-display.render
+# b = Board.new
+# display = Display.new(b)
+#
+# until b.over?
+#   pos = nil
+#   action = nil
+#   until pos && action
+#     display.render
+#     if pos
+#       puts "press 'r' to reveal, press 'f' to flag"
+#       action = display.cursor.get_input
+#     else
+#       puts "Which tile"
+#       pos = display.cursor.get_input
+#     end
+#   end
+#
+#   b[pos].send(action)
+#
+#   b.update_board(pos, action)
+# end
+# display.render
