@@ -5,7 +5,7 @@ require_relative 'slideable'
 # require_relative 'board'
 # require_relative 'display'
 
-class Queen < Piece
+class Rook < Piece
 
   include Slideable
 
@@ -14,22 +14,22 @@ class Queen < Piece
   end
 
   def symbol
-    "Q"
+    "♜"
   end
 
-protected
+  protected
 
   def move_dirs
-    horizontal_dirs + diagonal_dirs
+    horizontal_dirs
   end
 
 end
 
-# #comment in for test case
+# # comment in for test case
 # b = Board.new
-# q = Queen.new([3, 0], "red", b)
-# b[[3, 0]] = q
+# r = Rook.new([4, 4], "black", b)
+# b[[4, 4]] = r
 # display = Display.new(b)
 # display.render
 #
-# p q.moves
+# p r.moves

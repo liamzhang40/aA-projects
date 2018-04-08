@@ -1,35 +1,35 @@
 require_relative 'piece'
-require_relative 'stepable'
+require_relative 'slideable'
 
 # #comment in for test case
 # require_relative 'board'
 # require_relative 'display'
 
-class King < Piece
+class Queen < Piece
 
-  include Stepable
+  include Slideable
 
   def initialize(pos, color, board)
     super
   end
 
   def symbol
-    "K"
+    "♚"
   end
 
-  protected
+protected
 
-  def move_diffs
-    king_diffs
+  def move_dirs
+    horizontal_dirs + diagonal_dirs
   end
 
 end
 
-# # comment in for test case
+# #comment in for test case
 # b = Board.new
-# k = King.new([0, 4], "red", b)
-# b[[0, 4]] = k
+# q = Queen.new([3, 0], "red", b)
+# b[[3, 0]] = q
 # display = Display.new(b)
 # display.render
 #
-# p k.moves
+# p q.moves

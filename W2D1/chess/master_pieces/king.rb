@@ -5,7 +5,7 @@ require_relative 'stepable'
 # require_relative 'board'
 # require_relative 'display'
 
-class Knight < Piece
+class King < Piece
 
   include Stepable
 
@@ -14,21 +14,21 @@ class Knight < Piece
   end
 
   def symbol
-    "K"
+    "♛"
   end
 
   protected
 
   def move_diffs
-    knight_diffs
+    king_diffs
   end
 
 end
 
 # # comment in for test case
 # b = Board.new
-# k = Knight.new([3, 1], "black", b)
-# b[[3, 1]] = k
+# k = King.new([0, 4], "red", b)
+# b[[0, 4]] = k
 # display = Display.new(b)
 # display.render
 #

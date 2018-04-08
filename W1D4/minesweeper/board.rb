@@ -3,7 +3,7 @@ require_relative 'tile'
 
 class Board
   POS_DIFF = [[-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1], [-1, -1]]
-  BOMBS = 9
+  BOMBS = 15
   attr_accessor :grid
 
   def initialize
@@ -38,19 +38,10 @@ class Board
 
   def over?
     return true if any_bomb_revealed? || all_tiles_but_bombs_revealed?
-
-    # revealed_tiles = 0
-    # (0...grid.length).each do |i|
-    #   (0...grid[i].length).each do |j|
-    #     revealed_tiles += 1 if grid[i][j].revealed
-    #   end
-    # end
-    #
-    # (grid.length * grid[0].length) - revealed_tiles == BOMBS
   end
 
-  def update_board(pos)
-    unless self[pos].bomb || self[pos].flagged# Do nothing if the revealed pos is a bomb
+  def update_board(pos, action)
+    unless self[pos].bomb || action == :flag# Do nothing if the revealed pos is a bomb
       # debugger
       arr = [pos] # if it is not a bomb
       until arr.empty?
@@ -64,9 +55,8 @@ class Board
             # will not shovel to arr if the position is already revealed or flagged
           end
         end
-        # arr += possible_adjacent_positions(current_pos) unless self[current_pos].adjacent_bombs > 0
-
       end
+
     end
   end
 
@@ -80,13 +70,15 @@ class Board
     @grid[row][col] = value
   end
 
-  def all_tiles_but_bombs_revealed?
-    (0...grid.length).each do |i|
-      (0...grid[i].length).each do |j|
-        return false if !self[[i, j]].bomb && !self[[i, j]].revealed
-      end
-    end
-    true
+
+  def valid_pos?(pos)
+    pos.is_a?(Array) && pos.length == 2 && pos.all? {|n| (0...grid.length).include?(n)}
+      # raise ArgumentError.new "Invalid position entry"
+  end
+
+  def valid_action?(action, pos)
+    raise ArgumentError.new "Position is flagged" if action == "r" && self[pos].flagged
+    raise ArgumentError.new "Can't flag a revealed position" if action == "f" && self[pos].revealed
   end
 
   def any_bomb_revealed?
@@ -99,6 +91,16 @@ class Board
   end
 
   private
+
+  def all_tiles_but_bombs_revealed?
+    (0...grid.length).each do |i|
+      (0...grid[i].length).each do |j|
+        return false if !self[[i, j]].bomb && !self[[i, j]].revealed
+      end
+    end
+    true
+  end
+
 
   def random_positions(rows, cols)
     possible_bomb_positions = []
@@ -121,5 +123,5 @@ class Board
 
 end
 
-board = Board.new
+# board = Board.new
 # p board.grid

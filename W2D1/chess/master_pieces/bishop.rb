@@ -5,7 +5,7 @@ require_relative 'slideable'
 # require_relative 'board'
 # require_relative 'display'
 
-class Rook < Piece
+class Bishop < Piece
 
   include Slideable
 
@@ -14,22 +14,22 @@ class Rook < Piece
   end
 
   def symbol
-    "R"
+    "♝"
   end
 
   protected
 
   def move_dirs
-    horizontal_dirs
+    diagonal_dirs
   end
 
 end
 
-# # comment in for test case
+# #comment in for test case
 # b = Board.new
-# r = Rook.new([4, 4], "black", b)
-# b[[4, 4]] = r
+# bi = Bishop.new([3, 0], "red", b)
+# b[[3, 0]] = bi
 # display = Display.new(b)
 # display.render
 #
-# p r.moves
+# p bi.moves

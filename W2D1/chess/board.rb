@@ -1,4 +1,4 @@
-require_relative "master"
+require_relative "master_pieces/master"
 require "byebug"
 
 class Board
@@ -21,11 +21,11 @@ attr_reader :grid
     end
 
     (0..7).each do |j|
-      raw_grid[6][j] = Pawn.new([6,j], "light_white", self)
+      raw_grid[6][j] = Pawn.new([6,j], "white", self)
     end
 
     (0..7).each do |j|
-      raw_grid[7][j] = rows_to_create[j].new([7,j], "light_white", self)
+      raw_grid[7][j] = rows_to_create[j].new([7,j], "white", self)
     end
 
     raw_grid

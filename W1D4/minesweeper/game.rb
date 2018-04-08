@@ -1,21 +1,22 @@
 require_relative 'board'
-require_relative 'tile'
+require_relative 'display'
 require 'byebug'
 
 class Game
 
-  attr_accessor :board
+  attr_accessor :board, :display
 
   def initialize
     @board = Board.new
+    @display = Display.new(board)
   end
 
   def run
     puts "Minesweeper!!!"
     until over?
-      display
       take_turn
     end
+    display.render
     puts board.any_bomb_revealed? ? "You lost!!" : "You won!!"
   end
 
@@ -23,53 +24,53 @@ class Game
     @board.over?
   end
 
-  def display
-    system("clear")
-    @board.render
-  end
 
   def take_turn
-    pos, action = get_move
-    if action == "r"
-      board[pos].reveal
-      board.update_board(pos)
-    else
-      board[pos].flag # don't need to update the board because no need to reveal other tiles
+    # pos, action = get_move
+    # if action == "r"
+    #   board[pos].reveal
+    #   board.update_board(pos, action)
+    # else
+    #   board[pos].flag # don't need to update the board because no need to reveal other tiles
+    # end
+    pos, action = nil, nil
+    until pos && action
+      display.render
+      if pos
+        puts "press 'r' to reveal, press 'f' to flag"
+        action = display.cursor.get_input
+      else
+        puts "Which tile"
+        pos = display.cursor.get_input
+      end
     end
+
+    b[pos].send(action)
+    b.update_board(pos, action)
+
   end
 
   private
-
-  def get_move
-    puts "Enter a position (ex. 2, 3)"
-    begin
-      pos = parse_pos(gets)
-      valid_pos?(pos)
-      puts "Now enter r to 'reveal' and f to 'flag'"
-      action = gets.chomp
-      valid_action?(action, pos)
-    rescue ArgumentError => e
-      puts e.message
-      puts "Enter a new position"
-      retry
-    end
-    [pos, action]
-  end
-
-  def valid_pos?(pos)
-    unless pos.is_a?(Array) && pos.length == 2 && pos.all? {|n| (0...board.grid.length).include?(n)}
-      raise ArgumentError.new "Invalid position entry"
-    end
-  end
-
-  def valid_action?(action, pos)
-    raise ArgumentError.new "Position is flagged" if action == "r" && board[pos].flagged
-    raise ArgumentError.new "Can't flag a revealed position" if action == "f" && board[pos].revealed
-  end
-
-  def parse_pos(string)
-    string.chomp.split(',').map(&:to_i)
-  end
+#
+#   def get_move
+#     puts "Enter a position (ex. 2, 3)"
+#     begin
+#       pos = parse_pos(gets)
+#       board.valid_pos?(pos)
+#       puts "Now enter r to 'reveal' and f to 'flag'"
+#       action = gets.chomp
+#       board.valid_action?(action, pos)
+#     rescue ArgumentError => e
+#       puts e.message
+#       puts "Enter a new position"
+#       retry
+#     end
+#     [pos, action]
+#   end
+#
+#   def parse_pos(string)
+#     string.chomp.split(',').map(&:to_i)
+#   end
 end
 
 
