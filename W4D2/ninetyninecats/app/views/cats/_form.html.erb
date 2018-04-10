@@ -1,0 +1,35 @@
+<%= flash[:errors] %>
+
+<% if action == :edit %>
+  <% action_url = cat_url(cat) %>
+<% else %>
+  <% action_url = cats_url %>
+<% end %>
+
+<form action= " <%= action_url %>" method='POST'>
+  <% if action == :edit %>
+    <input type= 'hidden' name= '_method' method= 'PATCH'>
+  <% end %>
+
+  <label for= 'name'>Name</label>
+  <input id='name' type='text' name='cats[name]' value= ' <%= cat.name %> '><br><br>
+
+  <input type='radio' name= 'cats[sex]' value= 'M' <%= cat.sex == "M" ? "checked" : "" %> >Male<br>
+  <input type='radio' name= 'cats[sex]' value= 'F'<%= cat.sex == "F" ? "checked" : "" %>>Female<br><br>
+
+  <select name= 'cats[color]'>
+
+    <option disabled <%= cat.color ? "" : "selected" %> >-- Select a Color--</option>
+    <% Cat::COLORS.each do |color| %>
+    <option value= "<%= color %>" <%= cat.color == color ? "selected" : "" %>><%= color %></option>
+    <% end %>
+  </select> <br><br>
+
+  <input type="date" name="cats[birthdate]" value = <%= cat.birthdate %> ><br><br>
+
+  <label for="Description">Description</label><br>
+  <textarea id="Description" name="cats[description]"><%= cat.description %>
+  </textarea><br><br>
+
+  <input type='submit' value='Submit cat!'>
+</form>

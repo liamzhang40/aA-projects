@@ -1,6 +1,8 @@
 class ModifyUsersTable < ActiveRecord::Migration[5.1]
   def change
-    rename_column :users, :name, :username
-    remove_column :users, :email 
+    create_table :artwork_shares do |t|
+      t.string :username, null: false
+      t.timestamps
+    end
   end
 end

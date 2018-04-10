@@ -1,0 +1,23 @@
+<h1>Make a Request!</h1>
+
+<%= flash[:errors] %>
+
+<form action="<%=cat_rental_requests_url%>" method = 'POST'>
+  <select name= 'requests[cat_id]'>
+    <option disabled selected>--Choose a cat to rent--</option>
+    <% @cats.each do |cat| %>
+      <option value= '<%=cat.id%>'><%= cat.name %></option>
+    <% end %>
+  </select><br><br>
+
+  <label for='start'>Start Date:</label>
+  <input id="start" type='date' name = 'requests[start_date]'><br> <br>
+
+  <label for='end'>End Date:</label>
+  <input id="end" type='date' name = 'requests[end_date]'><br> <br>
+
+
+
+  <input type='submit' value = 'Submit your request'>
+
+</form>

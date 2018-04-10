@@ -1,0 +1,53 @@
+<table>
+  <thead>
+    <tr>
+      <th colspan = "2"><%= @cat.name %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>Birthdate</td>
+      <td><%= @cat.birthdate %></td>
+    </tr>
+
+    <tr>
+      <td>Color</td>
+      <td><%= @cat.color %></td>
+    </tr>
+
+    <tr>
+      <td>Sex</td>
+      <td><%= @cat.sex %></td>
+    </tr>
+
+    <tr>
+        <td>Description</td>
+        <td><%= @cat.description %></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>Existing Requests</h4>
+<% @cat.rental_requests.order('start_date').each_with_index do |request,idx| %>
+  <span>Request #<%= idx+1 %>:</span><br>
+  <span>Start- <%= request.start_date %></span><br>
+  <span>End- <%= request.end_date %></span><br>
+  <span>Status- <%= request.status %></span>
+
+  <% if request.status == 'PENDING' %>
+    <!-- <%#= button_to 'Approve Request', cat_cat_rental_request_url(request), method: :patch%>
+    <%#= button_to 'Deny Request', cat_cat_rental_request_url(request), method: :delete%> -->
+    <form action="<%= approve_cat_rental_request_url(request) %>"  method="GET"> <!-- equivalent to the above -->
+      <input type= "hidden" name = "status" value= "APPROVED">
+      <input type="submit" value="Approve request" />
+    </form>
+
+    <form action="<%= deny_cat_rental_request_url(request) %>"  method="GET"> <!-- equivalent to the above -->
+      <input type= "hidden" name = "status" value= "DENIED">
+      <input type="submit" value="Deny request" />
+    </form>
+
+
+  <% end %><br><br>
+<% end %>
