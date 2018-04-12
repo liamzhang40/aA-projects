@@ -1,0 +1,119 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+ html, body, div, span, h1, h2, h3, h4, a, p, ol, ul, li, form, label, article, aside, figure, figcaption, footer, header, nav {
+   margin: 0;
+   padding: 0;
+   border: 0;
+   font-size: 100%;
+   font: inherit;
+   vertical-align: baseline;
+   text-decoration: none;
+   box-sizing: content-box;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Bungee Inline', cursive;
+}
+
+h2 {
+  display: block;
+}
+
+.page-header {
+  font-size: 40px;
+  color: #39BAAC;
+  margin-bottom: 30px;
+}
+
+.main-content {
+  width: 700px;
+  min-height: 100vh;
+  margin: auto;
+  padding: 30px;
+  border: solid grey;
+  border-width: 0 5px;
+  background-color: #343030;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+.main-list {
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.main-list li a {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.main-list li a p {
+  width: 100%;
+  text-align: center;
+  font-size: 25px;
+  color: black;
+}
+
+.logo {
+    font-size: 75px;
+    margin-bottom: 30px;
+    color: #FDDB61;
+}
+
+.button {
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: skyblue;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+input[type="submit"] {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: skyblue;
+  margin-bottom: 20px;
+}
+
+.form {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form p {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+}
+
+p, a, input {
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+}

@@ -1,0 +1,9 @@
+<h3 class="page-header">Change the name!</h3>
+
+<form action="<%= band_url(@band) %>" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="_method" value="patch">
+  <input type="text" name="bands[name]" value="<%= @band.name %>">
+  <input type="submit" value="Change">
+
+</form>

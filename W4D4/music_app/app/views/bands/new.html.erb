@@ -1,0 +1,7 @@
+<h3 class="page-header">New Band!</h3>
+
+<form action="<%= bands_url %>" method="post">
+  <%= auth_token %>
+  <input type="text" name="bands[name]">
+  <input type="submit" value="Add this band">
+</form>

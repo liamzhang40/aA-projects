@@ -1,0 +1,10 @@
+<h3 class="page-header"><%= @band.name %></h3>
+
+
+<a class="button" href="<%= edit_band_url(@band) %>">Edit the name</a>
+
+<form action="<%= band_url(@band) %>" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete this band">
+</form>

@@ -1,0 +1,17 @@
+<h3 class="page-header">Sign in</h3>
+
+<form class="form" action="<%= session_url %>" method="post">
+  <%= auth_token %>
+
+  <p>
+    <label for="username">Username</label>
+    <input id="username" type="text" name="user[email]">
+  </p>
+
+  <p>
+    <label for="passw ord">Password</label>
+    <input id="password" type="password" name="user[password]">
+  </p>
+  
+  <input type="submit" value="Sign in">
+</form>

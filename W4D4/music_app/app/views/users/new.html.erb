@@ -1,0 +1,17 @@
+<h3 class="page-header">Sign up for some awesome music!</h3>
+
+<form class="form" action="<%= users_url %>" method="post">
+  <%= auth_token %>
+
+  <p>
+    <label for="username">Username</label>
+    <input id="username" type="text" name="users[email]" value="<%= @user.email %>">
+  </p>
+
+  <p>
+    <label for="password">Password</label>
+    <input id="password" type="password" name="users[password]">
+  </p>
+
+  <input type="submit" value="Register">
+</form>
