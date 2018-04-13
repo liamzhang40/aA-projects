@@ -1,0 +1,34 @@
+.location-nav button:hover {
+	background-color: #cec9c9;
+}
+
+.location-nav button {
+	background: none;
+	padding: 0px;
+	color: #000;
+	font-weight: normal;
+	border: none;
+  text-transform: none;
+}
+
+.location-header ul {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border-bottom: 1px solid gray;
+}
+
+.location-header ul li {
+  position: relative;
+  display: flex;
+  margin-right: 20px
+}
+
+.location-header a {
+  position: absolute;
+  bottom: 2px;
+  font-size: .85em;
+
+}

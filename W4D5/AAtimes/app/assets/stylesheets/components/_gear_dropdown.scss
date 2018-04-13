@@ -1,0 +1,53 @@
+// Use the gear_dropdown.png screenshot as a style guide
+#gear-dropdown-btn {
+  position: relative;
+  padding-top: 12px;
+  font-size: 15px;
+}
+
+#gear-dropdown li{
+  margin-bottom: 5px;
+  // margin-top: 5px;
+}
+
+.editions li:hover{
+  margin-bottom: 5px;
+  transition: background-color 0.3s;
+  background-color: grey;
+  color: black;
+}
+
+.editions li {
+  padding: 5px;
+  color: #adb9cc;
+}
+
+.help-box {
+  border-top: 1px solid gray;
+  padding-top: 10px;
+}
+
+#gear-dropdown span {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #666;
+  text-indent: 5px;
+  font-family: "nyt-franklin",arial,helvetica,sans-serif;
+}
+
+
+#gear-dropdown {
+  position: absolute;
+  width: 260px;
+  top: 50px;
+  right:10px;
+  background: white;
+  padding: 10px;
+  z-index: 1;
+  box-shadow: -1px 4px 6px 1px rgba(0, 0, 0, 0.09);
+}
+
+.help li {
+  padding: 5px;
+  color: #74a4f2;
+}
