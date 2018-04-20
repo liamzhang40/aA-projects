@@ -18,7 +18,7 @@ Student.prototype.enroll = function (Course) {
 Student.prototype.courseLoad = function () {
   const hash = {}; // const hash = new Object() upsets lint???
   this.courses.forEach(Course => {
-    if (hash[Course.deparment] === undefined) {
+    if (hash[Course.department] === undefined) {
       debugger;
       hash[Course.department] = Course.credits;
     } else {
@@ -30,7 +30,7 @@ Student.prototype.courseLoad = function () {
 
 function Course (name, department, credits) {
   this.name = name;
-  this.deparment = department;
+  this.department = department;
   this.credits = credits;
   this.students = [];
 }
