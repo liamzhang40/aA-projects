@@ -5,6 +5,7 @@
   width: 900px;
   background: url(../images/cats.jpg);
   background-size: cover;
+  position: relative;
 }
 
 .content-header img {
@@ -15,9 +16,19 @@
   font-size: 36px;
   color: white;
   text-shadow: 2px 2px 8px black;
+  position: absolute;
+  bottom: 15px;
+  left: 240px;
+  line-height: 1;
 }
 
 .content-header a {
   font-weight: 700;
-  border: 1px solid black;0
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: white;
+  padding: 10px 20px;
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
 }
