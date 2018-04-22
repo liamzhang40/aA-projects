@@ -43,31 +43,75 @@ class Game {
   }
 }
 
-Game.prototype.promptMove = function(callback) {
+Game.prototype.promptMove = function(reader, callback) {
   this.print();
 
-  reader.question("From tower index?", function(startTowerIdx) {
-    reader.question("To tower index?", function(endTowerIdx) {
-      if (callback(startTowerIdx, endTowerIdx) === false) {
-        console.log("Invalid!");
-      }
+  reader.question("From tower index?   ", function(startTowerIdx) {
+    reader.question("To tower index?   ", function(endTowerIdx) {
+      callback(parseInt(startTowerIdx), parseInt(endTowerIdx));
     });
   });
 };
 
-Game.prototype.run = function(completionCallback) {
-  while (!this.isWon) {
-    this.promptMove(this.move.bind(this));
-  }
+Game.prototype.run = function(reader, completionCallback) {
+  this.promptMove(reader, (startTowerIdx, endTowerIdx) => {
+    if (!this.move(startTowerIdx, endTowerIdx)) {
+      console.log('Invalid!');
+    }
 
-  completionCallback();
-  reader.close();
+    // isWon has to be in the callback to promptmove because
+    // reader.question is asynchronous. If it's at the top level
+    // of run, isWon will not wait and be executed into infinite
+    // recursion.
+
+    if (!this.isWon()) {
+      this.run(reader, completionCallback);
+    } else {
+      this.print();
+      console.log('You win!');
+      reader.close();
+    }
+  });
 };
 
+//   while (!this.isWon()) {
+//
+//     this.promptMove(reader, (startTowerIdx, endTowerIdx) => {
+//       if (!this.move(startTowerIdx, endTowerIdx)) {
+//         console.log('Invalid!!!');
+//       }
+//       if (!this.isWon()) {
+//         this.promptMove(reader, (startTowerIdx, endTowerIdx) => {
+//
+//           if (!this.move(startTowerIdx, endTowerIdx)) {
+//
+//             console.log('Invalid!!!');
+//           } else {
+//             this.print();
+//             console.log('You win!');
+//             reader.close();
+//           }
+//         });
+//       }
+//
+//     });
+//   }
+// };
+
+// function completion() {
+//   reader.question("Play again? y or n: ", restartGame => {
+//     if (restartGame === "y") {
+//       g = new Game();
+//       g.run(reader, completion);
+//     } else {
+//       reader.close();
+//     }
+//   });
+// }
+
+let g = new Game();
+g.run(reader);
 
 
 
-const game = new Game();
-// console.log(game.move(0, 1));
-// console.log(game.towers);
-game.run(el => console.log('Its working!!!!'));
+// game.run(reader, el => console.log('Its working!!!!'));
