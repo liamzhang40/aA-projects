@@ -8,36 +8,44 @@ Student.prototype.name = function () {
   return `${this.fname} ${this.lname}`;
 };
 
-Student.prototype.enroll = function (Course) {
-  if (!this.courses.includes(Course)) {
-    this.courses.push(Course);
-    Course.students.push(this);
+Student.prototype.enroll = function (course) {
+  if (!this.courses.includes(course)) {
+    this.courses.push(course);
+    course.students.push(this);
   }
 };
 
 Student.prototype.courseLoad = function () {
   const hash = {}; // const hash = new Object() upsets lint???
-  this.courses.forEach(Course => {
-    if (hash[Course.department] === undefined) {
-      debugger;
-      hash[Course.department] = Course.credits;
+  this.courses.forEach(course => {
+    if (hash[course.department] === undefined) {
+      hash[course.department] = course.credits;
     } else {
-      hash[Course.department] += Course.credits;
+      hash[course.department] += course.credits;
     }
   });
   return hash;
 };
 
-function Course (name, department, credits) {
+
+function Course (name, department, credits, days, time_block) {
   this.name = name;
   this.department = department;
   this.credits = credits;
   this.students = [];
+  this.days = days;
+  this.time_block = time_block;
 }
 
 Course.prototype.addStudent = function (Student) {
   Student.enroll(this);
 };
+
+Course.prototype.conflictsWith = function(course) {
+  if (this.time_block !== course.time_block) return false;
+  return this.days.some(day => course.days.includes(day));
+};
+
 
 let student1 = new Student("Nigel", "Leffler");
 let course1 = new Course("101", "CS", 3, ["mon", "wed", "fri"], 1);
@@ -49,7 +57,7 @@ student1.enroll(course3);
 student1.enroll(course2);
 // console.log(course1);
 // console.log(student1);
-console.log(student1.courseLoad());
-// console.log('should be true = ' + course1.conflictsWith(course2));
-// console.log('should be false = ' + course1.conflictsWith(course3));
-// console.log('should be false = ' + course1.conflictsWith(course4));
+// console.log(student1.courseLoad());
+console.log('should be true = ' + course1.conflictsWith(course2));
+console.log('should be false = ' + course1.conflictsWith(course3));
+console.log('should be false = ' + course1.conflictsWith(course4));
