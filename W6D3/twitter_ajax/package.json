@@ -1,0 +1,8 @@
+{
+  "name": "ajax_twitter",
+  "private": true,
+  "dependencies": {},
+  "scripts": {
+    "webpack": "webpack --watch"
+  }
+}
