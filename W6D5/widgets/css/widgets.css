@@ -1,24 +1,25 @@
 .time-widgets {
   font-family:'Do Hyeon', sans-serif;
-  font-size: 35px;
+}
+
+.time-widgets-box {
   display: flex;
   flex-direction: column;
   border: 3px solid gold;
   background-color: black;
   color: white;
   padding: 20px;
-  margin-top: 50px;
 }
 
-.time-widgets div {
+.headers{
+  font-size: 35px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.time-widgets-box div {
   display: flex;
   justify-content: space-between;
-}
-
-.clock-header {
-  margin-top: -60px;
-  margin-bottom: 20px;
-  color: black;
 }
 
 #root {
@@ -26,26 +27,101 @@
   margin: auto;
 }
 
-.tab-widgets{
-  padding: 25px;
-  background-color: #33ccff;
-  width: 200px;
+.weather-widgets {
+  font-family:'Do Hyeon', sans-serif;
 }
 
-.tab-headers{
-  display: flex;
+.weather {
+  vertical-align: middle;
+  text-align: center;
+  background-color: lightgreen;
+  border: 3px solid gold;
+}
 
+.weather p {
+  padding: 10px;
+  color: white;
+}
+
+.interactive {
+  font-family:'Do Hyeon', sans-serif;
+  display: flex;
+  padding: 25px;
+  justify-content: space-between;
+}
+
+.tab-widgets {
+}
+
+.tab-headers {
+  display: flex;
+  justify-content: center;
+  margin-bottom: -1px;
 }
 
 .tab-headers h1{
   box-sizing: border-box;
   font-weight: 700;
-  padding: 2px;
-  border: 1px solid black;
+  padding: 2px 15px;
+  width: 70px;
+  border-top: 2px solid gold;
+  border-right: 1px solid gold;
+  border-left: 1px solid gold;
+  border-bottom: 2px solid gold;
   text-align: center;
-  border-radius: 5px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: lightblue;
+}
+
+.tab-headers h1:hover {
+  background-color: grey;
+  color: white;
+  cursor: pointer;
+  border-bottom: none;
 }
 
 .tab-content{
+  border-right: 1px solid gold;
+  border-left: 1px solid gold;
+  border-bottom: 2px solid gold;
+  width: 208px;
+  height: 200px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: lightblue;
+}
+
+/* this is not working!!!!??!?!?!?!*/
+.tab-header > h1.active-tab {
+  border-bottom: none;
+}
+
+.auto-widgets {
+  background-color: violet;
+  width: 208px;
+  height: 227.67px;
+  border: 1px solid gold;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-bar {
+  background-color: white;
+  border: 1px solid gold;
+  width: calc(100% - 100px);
+  margin: 35px auto 0px auto;
+}
+
+.auto-widgets ul {
   text-align: center;
+  padding: 10px;
+  margin: 0px auto 0px auto;
+}
+
+.auto-widgets li:hover {
+  cursor: pointer;
+  color: white;
 }
