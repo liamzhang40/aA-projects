@@ -24,7 +24,7 @@ const arrayToObj = (array) => {
 };
 
 export default (state = initialState, action) => {
-  debugger
+  // debugger
   switch(action.type) {
     case RECEIVE_TODOS:
       return arrayToObj(action.todos);

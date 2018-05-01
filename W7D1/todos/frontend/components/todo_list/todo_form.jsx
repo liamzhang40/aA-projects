@@ -23,15 +23,14 @@ export default class TodoForm extends React.Component {
   }
 
   handleClick(e) {
-    debugger
     const id = Util.uniqueId();
-    const todo = {id: {
+    const todo = {[id]: {
       id: id,
       title: this.state.title,
       body: this.state.body,
       done: false
     }};
-
+    console.log(todo);
     this.props.receiveTodo(todo);
   }
 
