@@ -75,7 +75,7 @@
 }
 
 .tab-headers h1:hover {
-  background-color: grey;
+  background-color: black;
   color: white;
   cursor: pointer;
   border-bottom: none;
@@ -95,7 +95,7 @@
 }
 
 /* this is not working!!!!??!?!?!?!*/
-.tab-header > h1.active-tab {
+.tab-headers > h1.active-tab {
   border-bottom: none;
 }
 
